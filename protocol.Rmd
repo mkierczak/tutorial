@@ -1,0 +1,80 @@
+---
+title: "Genome-wide association studies in stratified populations -- an R-based protocol."
+author: "Marcin Kierczak, Xia Shen, Lennart C. Karssen, Katja Höglund, Kerstin Lindblad-Toh, Yurii Aulchenko"
+date: "25 May 2015"
+output: html_document
+---
+
+# Abstract
+
+The presented protocol describes advanced statistical analyses for genome-wide association studies in stratified populations using statistical suite R and GenABEL package. The protocol encompasses the analysis of both the continuous and the binary traits (case-control studies). There are several main steps of the protocol: (i) data preparation; (ii) quality control, outliers identification and stratification detection; (iii) stratification analysis and visualization followed by the analysis and identification of co-variates; (iv) selection and application of appropriate tests for association; (v) model quality assessment; and (vi) interpretation and visualization of the obtained results. We assume that the reader has no previous experience with using R and GenABEL for genetic studies, however, we require some basic knowledge of R. For an average size dataset (several hundred thousand markers, several hundred individuals), the completion of the protocol should take X-Yh.  
+
+# Introduction
+
+A genome-wide association study (GWAS) is a genetic association study performed on a genome-wide scale. The primary aim of a GWAS is to identify the genetic markers, typically single nucleotide polymorphisms (SNP), that are statistically significantly associated with the studied trait, the latter being either continuous such as weight or binary such as healthy/sick.  
+
+* Development of the protocol: Include references to your own peer-reviewed primary research publications.
+
+* Applications of the method: If you think that the protocol could be adapted for use in a wider range of applications than presented you should discuss the full diversity of the applications of the method.
+
+* Comparison with other methods: Where applicable, reference should be made to alternative methods that are commonly used to achieve the same result as the protocol. The advantages and disadvantages of your protocol compared to other alternatives should be discussed.
+
+* Experimental Design: Because our style does not allow for additional information outside of a numbered step in the procedure, it is often useful to include a subsection entitled 'Experimental design' where procedure-specific information can be placed. In this section, please provide all information about the design of the experiments that readers would need to be able to adapt the protocol to their own experimental situation. This section should also include a discussion of the controls necessary for the protocol. For protocols describing the preparation of organic molecules, a scheme showing the sequence of reactions should be included (all schemes should be labeled as figures).
+
+* Limitations. The possible limitations of the protocol should be discussed. It should be made clear in which situations the Protocol has been successfully employed, in which situations it is reasonable to expect the Protocol to function and in which situations the Protocol would be unreliable or otherwise unsuccessful.
+
+# Materials
+Dataset 1 contains genotyping (Illumina CanineHD 170k array) data collected from 7 different dog breeds within the European project LUPA. Genotyping data for ~170k markers is included for the following dog breeds: Belgian shepherd Malinois (BS), Boxer (BOX), Cavalier King Charles spaniel (CKCS), Dachshound (DACH), Dobermann pinscher (DOB), Finnish lapphound (FIN_LAP), German shepherd (GS), Labrador retriever (LAB) and Newfoundland (NF). Females are coded as 0 and males as 1. 
+
+## PROCEDURE: 
+### Setting up environment $\bullet$ 10-40min
+```{r setup, echo=TRUE, results='hide', message=FALSE, warning=FALSE, eval=T}
+library(GenABEL) # Load GenABEL
+library(cgmisc) # Load cgmisc
+```
+
+**Troubleshooting:** If any of the required packages is missing, it has to be installed:
+```{r installing.packages, echo=TRUE, eval=FALSE}
+# Installing GenABEL
+install.packages("GenABEL")
+
+# Installing cgmisc
+# First, install and load package devtools
+install.packages('devtools')
+library('devtools')
+# And install the cgmisc package
+install_github(repo = 'cgmisc-team/cgmisc')
+```
+
+### Loading the data $\bullet$ 30-60min
+```{r loading_data, echo=TRUE, eval=TRUE}
+geno <- "~/Dropbox/Dog physiology project/Simon/data/genotype120216.raw"
+pheno <- "~/Dropbox/Dog physiology project/Simon/data/pheno_addedKatjaInd_noMissingSex.txt"
+data.orig <- load.gwaa.data(pheno, geno)
+```
+**Critical step:** Make sure that markers in the map file describing your dataset are sorted according to chromosome and position. If they are not, you can set option ```sort=TRUE```. Also, if marker positions are given in chromosome-wise coordinates (distance from the beginning of the current chromosome), use ```makemap=TRUE``` option to compute genome-wide coordinates. Refere to GenABEL documentation ```?load.gwaa.data``` if necessary. 
+
+**Troubleshooting:** It is also possible that GenABEL will return the following error: ```Error```. This is caused by the fact that the first marker is not monomorphic. 
+
+### PROCEDURE: 
+### TIMING
+### TROUBLESHOOTING
+### ANTICIPATED RESULTS
+
+REFERENCES
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
